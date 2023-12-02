@@ -9,6 +9,6 @@ market trends (as an example). Some serious maths!
 
 Let's see where this project takes us, shall we?
 
-#This repo should contain: 
+# This repo should contain: 
 - db_utils.py which contains code to extract data from the project's database 
 
