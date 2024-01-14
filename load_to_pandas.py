@@ -5,12 +5,12 @@ Unless 'create a function' just means 'write a line of code,' but doesn't actual
 'create a function,' this prompt sounds like over-engineering... 
 surely I could just use pd.read_csv, a function that already exists?
 """
-
+import numpy as np
 import pandas as pd
-finance_df = pd.read_csv("dataframe.csv")
+finance_df = pd.read_csv("dataframe.csv", parse_dates= ['issue_date', 'earliest_credit_line','last_payment_date', 'next_payment_date','last_credit_pull_date'])
 
 # print(finance_df.shape) # (54231, 44), so 44 columns (variables) for 1 row of variable names and 54,230 loans (entries/rows)
-# finance_df.info() # from this we learn the datatype for each variable, and how many non-null entries there are for each variable. 
+finance_df.info() # from this we learn the datatype for each variable, and how many non-null entries there are for each variable. 
                     # Notably there are plenty of variables that have some null variables, e.g. months since first payment (could be zero if loan less than a month old) or next payment date (could be null if loan paid). 
 """
 <class 'pandas.core.frame.DataFrame'>
@@ -66,16 +66,35 @@ dtypes: float64(20), int64(9), object(15)
 memory usage: 18.2+ MB
 """
 
- first_five = finance_df.head(5) 
- print(first_five) # returns the first five entires for a sample so we can see how they look
+#first_five = finance_df.head(5) 
+# print(first_five) # returns the first five entires for a sample so we can see how they look
 
 # Noticed id sems to start with 3 and member_id seems to start with 4, so checked: 
- print(finance_df['id'].min(), finance_df['id'].max(), finance_df['member_id'].min(), finance_df['member_id'].max())
+# print(finance_df['id'].min(), finance_df['id'].max(), finance_df['member_id'].min(), finance_df['member_id'].max())
 # 55521 38676116 70694 41461848 so the pattern doesn't persist- id numbers don't have a quickly recognisable format.
 
 # What type of applications could there be? 
-print(set(finance_df['application_type'])) #{'INDIVIDUAL'} so all loans are of the same type
+# print(set(finance_df['application_type'])) #{'INDIVIDUAL'} so all loans are of the same type
 
 # What is the range of loan amounts? 
-print(finance_df['loan_amount'].min(), finance_df['loan_amount'].max()) # 500 35000, so a range of 34500
+# print(finance_df['loan_amount'].min(), finance_df['loan_amount'].max()) # 500 35000, so a range of 34500
 
+#print(set(finance_df['term'])) #I used this to check the contents of every column 
+
+'''
+Milestone3:Task1: are there any excess symbols in the data? 
+Why, yes! employment_length and term columns can be summarised as floats. 
+'''
+
+finance_df['employment_length'] = finance_df['employment_length'].str.extract("([-+]?\d*\.\d+|[-+]?\d+)").astype(float)
+
+
+#print(finance_df['employment_length'])
+#print(finance_df['employment_length'].dtype) 
+
+finance_df['term'] = finance_df['term'].str.extract("([-+]?\d*\.\d+|[-+]?\d+)").astype(float)
+
+finance_df.rename(columns = {'employment_length':'years_of_employment', 'term' : 'term_length_in_months'}, inplace = True) 
+
+
+finance_df.info() 

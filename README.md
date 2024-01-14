@@ -37,12 +37,13 @@ Let's see where this project takes us, shall we?
 	4. Produce full analysis and visualisation of loan data. 
 ### Methods: 
 	1. I did this in VS code. It turns out a few things needed to be re-installed within VS code in order for db_utils.py to "see" them all in concert. 
-	2. As AiCore is (pedagogically) handing the reins over to the students moreso at this stage, but still sets out a set of instructions to follow. Despite my lack of experience with AWS, I can imagine there are slower, less "slick", but ultimately simpler ways to extract the dataframe.csv, but in trying to stick to AiCore's instructions I got all in a muddle. In short, I found 'setting the stage' for this one-button click style of download very difficult, and enlisted the help of a programmer friend to tidy up my code in db_utils.py. 
-	3. 
+	2.1. As AiCore is (pedagogically) handing the reins over to the students moreso at this stage, but still sets out a set of instructions to follow. Despite my lack of experience with AWS, I can imagine there are slower, less "slick", but ultimately simpler ways to extract the dataframe.csv, but in trying to stick to AiCore's instructions I got all in a muddle. In short, I found 'setting the stage' for this one-button click style of download very difficult, and enlisted the help of a programmer friend to tidy up my code in db_utils.py. 
+	2.2. Data cleaning involved converting columns to more appropriate data types (e.g. to number) and removing excess symbols, among other things. While I have historically performed data cleaning tasks through libraries like pandas directly, then saved the improved databases with their own name (a habit I developed using R), AiCore instructed to make column conversions by setting up a DataTransform class; since I would later import the .py file in which this class existed to an .ipynb file, I opted to create a separate and obviously named data_cleaning_for_EDA.py file for this task; however, it was in examining the columns in load_to_pandas.py closely that I realised the only columns I was likely to have issues with were the dates being listed as 'object' dtypes anyway, so I decided to just add the parse_dates argument in the original pd.read_csv() statement instead.... then, while combing the column titles for potential columns that would need a change to date format, I idenitified that employment_length was unnecessarily stringy; I could identify potential correlations if that was in int64 form, and the same can be said for term. So I parsed dates in load_to_pandas.py (see the non-parsed thing in earlier version control commits), and I changed those two columns 'term' and 'employment_length' in the same file as well, instead of using classes (seems overcomplicated) in data_cleaning_for_EDA.py at all. 
+	3.
 	4. 
 ### What I've learned: 
 	1. 
-	2. 
+	2. As I converted employment_length, I was reminded that nan can't be forced to int, but it can be forced to float. 
 	3. 
 	4. 
 
