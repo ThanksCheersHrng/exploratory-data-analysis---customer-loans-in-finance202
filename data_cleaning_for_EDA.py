@@ -7,4 +7,6 @@ class DataTransform():
 
 # create class to get info from DataFrame
 
-
+class DataFrameInfo():
+    def __init__(self) -> None: 
+        pass 
