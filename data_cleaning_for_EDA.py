@@ -11,6 +11,8 @@ import numpy as np
 import pandas as pd
 
 class DataFrameInfo():
+    def __init__(self, data_frame):
+        self.data_frame = data_frame
     def data_types(self): 
         data_types = self.dtypes
         print(data_types)
