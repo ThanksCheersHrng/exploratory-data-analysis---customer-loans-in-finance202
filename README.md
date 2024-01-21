@@ -29,6 +29,10 @@ Let's see where this project takes us, shall we?
 
 - load_to_pandas.py which reads dataframe.csv as a pandas dataframe called finance_df, and applies basic pandas functions to become familiar with the data. 
 
+- data_cleaning_for_EDA.py which is a workspace for developing classes, as assigned by AiCore 
+
+- testing_class.py, added 2024.01.21 to give me a space to try to import classes, import the data, and apply the classes to the data without all the extra clutter (mercifully contained in load_to_pandas.py and data_cleaning_for_EDA.py). 
+
 ## Project Decription 
 ### Aims: 
 	1. Set up the environment
