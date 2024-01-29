@@ -32,7 +32,11 @@ Let's see where this project takes us, shall we?
 - data_cleaning_for_EDA.py which is a workspace for developing classes, as assigned by AiCore 
 
 - testing_class.py, added 2024.01.21 to give me a space to try to import classes, import the data, and apply the classes to the data without all the extra clutter (mercifully contained in load_to_pandas.py and data_cleaning_for_EDA.py). 
-
+	As of 2024.01.20.07.50, watched https://www.youtube.com/watch?v=txRTzljmV0Q to better understand why I would do this with methods instead of functions; the distinction is still murky. I'm forcing myself to use methods at this point because that's what the task wants (and I guess the finance dataset is sort of a collection of objects in variable states.), but it seems like it would be 100 times simpler to just use the functions already built into pandas that perform the data workflow perfectly! 
+	As of 2024.01.20.08.00, established that even when I import the np and pd modules directly into the class, .dtypes (from pd) is still not recognised as an attribute of the class- how can I inherit those functions? 
+	Additionally as of 2024.01.20.08.00, thought of the following alternative approach:     
+	1.  Within the class definition, try stripping out each variable from df 
+    2.  so later I can (in theory) perform operations on (or... create methods relating to...) individual columns- might be easier than trying to get the class to use pd/np functions? 
 ## Project Decription 
 ### Aims: 
 	1. Set up the environment

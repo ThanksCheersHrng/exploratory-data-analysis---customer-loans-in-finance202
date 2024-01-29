@@ -7,10 +7,12 @@ class DataTransform():
 
 # create class to get info from DataFrame
 
-import numpy as np
-import pandas as pd
+# import numpy as np
+# import pandas as pd
 
 class DataFrameInfo():
+    #import numpy as np
+    #import pandas as pd
     def __init__(self, data_frame):
         self.data_frame = data_frame
     def data_types(self): 
