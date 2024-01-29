@@ -37,6 +37,7 @@ Let's see where this project takes us, shall we?
 	Additionally as of 2024.01.20.08.00, thought of the following alternative approach:     
 	1.  Within the class definition, try stripping out each variable from df 
     2.  so later I can (in theory) perform operations on (or... create methods relating to...) individual columns- might be easier than trying to get the class to use pd/np functions? 
+	As of 01.29.20.34, got help from Mat (lots of help- so many issues, bashrc and windows env var's clashing, as well as not knowing how to structure methods within classes using the self approprately- i think now i do, see 'what i've learned.') and now at least two methods in DataFrameInfo() work and the code has stopped breaking at every available opportunity. Mat also recommended .ipynb instead of .py, so that i can run code in chunks! 
 ## Project Decription 
 ### Aims: 
 	1. Set up the environment

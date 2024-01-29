@@ -20,16 +20,18 @@ class DataFrameInfo():
         self.data_frame = data_frame
 
     def data_types(self): 
-        data_types = pd.dtype(self.data_frame)
+        data_types = self.data_frame.dtypes
         print(data_types)
 
     def col_names(self): 
-        print(pd.columns(self.data_frame))
+        self.data_frame.head() #just to get it working-- strange this doesn't print out automatically as apparently that's what pd.head() should do. 
 
 
 df = DataFrameInfo(finance_df)
 df.data_types()
 df.col_names()
+
+
 
 """ 
 #Giving my data frame a short and sweet name to work with 
