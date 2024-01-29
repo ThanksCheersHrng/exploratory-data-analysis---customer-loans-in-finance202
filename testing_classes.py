@@ -1,31 +1,45 @@
-#This is a space where I can test out the methods of my classes. 
+# This is a space where I can test out the methods of my classes. 
 import numpy as np
 import pandas as pd
 
-#to do: import data_cleaning_for_EDA once finalised
+# to do: import data_cleaning_for_EDA once finalised
+# from data_cleaning_for_EDA import DataFrameInfo 
+
+#import load_to_pandas for access to the db. 
+finance_df = pd.read_csv("dataframe.csv", parse_dates= ['issue_date', 'earliest_credit_line','last_payment_date', 'next_payment_date','last_credit_pull_date'])
+finance_df['employment_length'] = finance_df['employment_length'].str.extract("([-+]?\d*\.\d+|[-+]?\d+)").astype(float)
+finance_df['term'] = finance_df['term'].str.extract("([-+]?\d*\.\d+|[-+]?\d+)").astype(float)
+finance_df.rename(columns = {'employment_length':'years_of_employment', 'term' : 'term_length_in_months'}, inplace = True) 
 
 
 #temporary direct copy/paste instead of import- why is name 'DataFrameInfo' not defined??? 
 #Now I get this error instead: AttributeError: 'DataFrameInfo' object has no attribute 'dtypes' 
 
 class DataFrameInfo():
-    import numpy as np
-    import pandas as pd
     def __init__(self, data_frame):
         self.data_frame = data_frame
+
     def data_types(self): 
-        data_types = self.dtypes
+        data_types = pd.dtype(self.data_frame)
         print(data_types)
+
     def col_names(self): 
-        print(self.columns)
+        print(pd.columns(self.data_frame))
 
-#import load_to_pandas for access to the db. 
-import load_to_pandas
 
+df = DataFrameInfo(finance_df)
+df.data_types()
+df.col_names()
+
+""" 
 #Giving my data frame a short and sweet name to work with 
-df = load_to_pandas.finance_df
+load_to_pandas 
 
-df_in_class = DataFrameInfo(df) #see this is why I don't see the point of creating classes in this project- all these layers of instantiation take so much time and brainspace! I've been at this for hours, just trying to get DataFrameInfo to work and spit out the data types of each column- pandas already has most (if not all) of the methods we're after
+df = finance_df
+
+# df = load_to_pandas.finance_df() # brackets needed to call a function
+
+df_in_class = DataFrameInfo(df) 
 
 types_of_data = df_in_class.data_types() 
 
@@ -36,3 +50,4 @@ print(types_of_data)
 # data_types = self.dtypes
                  ^^^^^^^^^^^
 # AttributeError: 'DataFrameInfo' object has no attribute 'dtypes'
+"""
