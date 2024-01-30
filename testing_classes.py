@@ -24,8 +24,8 @@ class DataFrameInfo():
         print(data_types)
 
     def col_names(self): 
-        self.data_frame.head() #just to get it working-- strange this doesn't print out automatically as apparently that's what pd.head() should do. 
-
+        header = self.data_frame.head() #just to get it working-- strange this doesn't print out automatically as apparently that's what pd.head() should do. 
+        print(header)
 
 df = DataFrameInfo(finance_df)
 df.data_types()
