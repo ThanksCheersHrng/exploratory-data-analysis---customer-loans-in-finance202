@@ -1,6 +1,7 @@
 # This is a space where I can test out the methods of my classes. 
 import numpy as np
 import pandas as pd
+# from tabulate import table
 
 # to do: import data_cleaning_for_EDA once finalised
 # from data_cleaning_for_EDA import DataFrameInfo 
@@ -12,9 +13,6 @@ finance_df['term'] = finance_df['term'].str.extract("([-+]?\d*\.\d+|[-+]?\d+)").
 finance_df.rename(columns = {'employment_length':'years_of_employment', 'term' : 'term_length_in_months'}, inplace = True) 
 
 
-#temporary direct copy/paste instead of import- why is name 'DataFrameInfo' not defined??? 
-#Now I get this error instead: AttributeError: 'DataFrameInfo' object has no attribute 'dtypes' 
-
 class DataFrameInfo():
     def __init__(self, data_frame):
         self.data_frame = data_frame
@@ -24,14 +22,40 @@ class DataFrameInfo():
         print(data_types)
 
     def col_names(self): 
-        header = self.data_frame.head() #just to get it working-- strange this doesn't print out automatically as apparently that's what pd.head() should do. 
-        print(header)
+        header = self.data_frame.columns 
+    
+    def stats(self) -> None: 
+        means = self.data_frame.mean(axis=None) #addition unsupported for float and str, so force float and ignore str?  
+        # meds = self.data_frame.median
+        # mode = self.data_frame.mode
+        # table = [[columns, means, medians, modes], [self.col_names, means, meds, mode]]
+        print(means)
+        # print(tabulate(table))
+
+
+    def count_null(self) -> None: 
+        pass
+    
+    def perc_null(self) -> None: 
+        pass 
+    
+    def print_shape(self) -> None: 
+        pass
+    
+    def count_distinct(self) -> None: 
+        pass
+    
+    def cor_coef(self) -> None: 
+        pass 
 
 df = DataFrameInfo(finance_df)
+# the applicatons of each method below get commented out as I confirm they work 
 df.data_types()
-df.col_names()
+# df.col_names()
+# df.stats()
 
 
+# Can I really not perform a mean calculation on a float64 type? Test this on last_payment_amount and next_payment_date (a datetime64[ns] type)
 
 """ 
 #Giving my data frame a short and sweet name to work with 
