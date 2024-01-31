@@ -28,22 +28,35 @@ class DataFrameInfo():
         means = self.data_frame.mean(numeric_only=True) #addition unsupported for float and str, so force float and ignore str?  
         meds = self.data_frame.median(numeric_only=True)
         mode = self.data_frame.mode(axis=1, dropna=True)
-        # table = [[columns, means, medians, modes], [self.col_names, means, meds, mode]]
+        # print(mode) # still returns a whole bunch of 0.0, NaN, NaT, despite dropna=True # as I supsected, mode has no issue with str. 
+        
+        #### One possible way to display it all: 
         # to_display = {"means": means, "medians": meds}
         # display_df = pd.concat(to_display, axis = 1) 
         # print(display_df)
-        print(mode) # still returns a whole bunch of 0.0, NaN, NaT, despite dropna=True # as I supsected, mode has no issue with str. 
+
+        #### Another possible way to display it all: 
+        # table = [[columns, means, medians, modes], [self.col_names, means, meds, mode]]
         # print(tabulate(table))
 
 
     def count_null(self) -> None: 
+        # approach number 1
+        # createa a count of this somehow: 
+            # (self.data_frame.isna)  # this is boolean same-sized df showing places of NA elts (so like, count if =True)
+        # approach number 2
+        all_count = self.data_frame.size # n. elts in array 
+        non_null_count = self.data_frame.count() #counts non-null elts?  
+        null_count = all_count - non_null_count
+        print(null_count)
         pass
     
     def perc_null(self) -> None: 
+        
         pass 
     
     def print_shape(self) -> None: 
-        pass
+        print(self.data_frame.shape)
     
     def count_distinct(self) -> None: 
         pass
@@ -55,7 +68,9 @@ df = DataFrameInfo(finance_df)
 # the applicatons of each method below get commented out as I confirm they work 
 # df.data_types()
 # df.col_names()
-df.stats()
+# df.stats()
+# df.print_shape() # (54231, 44)
+# df.count_null() #that works. They're all in the 2 milliion's, so roughly half NA's. 
 
 
 """ 
