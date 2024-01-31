@@ -49,16 +49,17 @@ class DataFrameInfo():
         non_null_count = self.data_frame.count() #counts non-null elts?  
         null_count = all_count - non_null_count
         print(null_count)
-        pass
     
     def perc_null(self) -> None: 
-        
-        pass 
+        numerator = self.data_frame.size - self.data_frame.count()
+        denominator = self.data_frame.size
+        print(100*numerator/denominator)
     
     def print_shape(self) -> None: 
         print(self.data_frame.shape)
     
-    def count_distinct(self) -> None: 
+    def count_distinct(self) -> None:
+        # print(self.data_frame.) 
         pass
     
     def cor_coef(self) -> None: 
@@ -71,6 +72,7 @@ df = DataFrameInfo(finance_df)
 # df.stats()
 # df.print_shape() # (54231, 44)
 # df.count_null() #that works. They're all in the 2 milliion's, so roughly half NA's. 
+# df.perc_null() # they all come out to around 98% which is bonkers because how is 2/5 close to 98%? 
 
 
 """ 
