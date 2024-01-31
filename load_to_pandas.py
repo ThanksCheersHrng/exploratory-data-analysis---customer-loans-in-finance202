@@ -8,7 +8,7 @@ surely I could just use pd.read_csv, a function that already exists?
 import numpy as np
 import pandas as pd
 
-class DataImportAndClean(): 
+# class DataImportAndClean(): 
 
 finance_df = pd.read_csv("dataframe.csv", parse_dates= ['issue_date', 'earliest_credit_line','last_payment_date', 'next_payment_date','last_credit_pull_date'])
 
