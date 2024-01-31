@@ -27,12 +27,12 @@ class DataFrameInfo():
     def stats(self) -> None: 
         means = self.data_frame.mean(numeric_only=True) #addition unsupported for float and str, so force float and ignore str?  
         meds = self.data_frame.median(numeric_only=True)
-        # mode = self.data_frame.mode
+        mode = self.data_frame.mode(axis=1, dropna=True)
         # table = [[columns, means, medians, modes], [self.col_names, means, meds, mode]]
         # to_display = {"means": means, "medians": meds}
         # display_df = pd.concat(to_display, axis = 1) 
         # print(display_df)
-        print(meds)
+        print(mode) # still returns a whole bunch of 0.0, NaN, NaT, despite dropna=True # as I supsected, mode has no issue with str. 
         # print(tabulate(table))
 
 
