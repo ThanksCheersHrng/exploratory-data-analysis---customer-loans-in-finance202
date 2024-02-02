@@ -15,6 +15,7 @@ finance_df.rename(columns = {'employment_length':'years_of_employment', 'term' :
 class DataFrameInfo():
     def __init__(self, data_frame):
         self.data_frame = data_frame
+        self.table = self.data_frame.value_counts()
 
     def count_elements(self):
         element_count = self.data_frame.size
@@ -42,8 +43,10 @@ class DataFrameInfo():
         # table = [[columns, means, medians, modes], [self.col_names, means, meds, mode]]
         # print(tabulate(table))
 
-    def tabulate_non_null_values(self): 
-        print(self.data_frame.value_counts())
+    def tabulate_non_null_values(self): #I'm struggling to believe over 97% of the entries in every column are NA's.  
+        print(self.table)
+        # self.table = pd.DataFrame(self.table)
+        # self.table.to_csv('Table_of_non_null_values.csv', sep = " ") #it was too big to be legible in vs code so I thought to export to csv # just got a bunch of ones; clearly not identifying the right 'sep'
 
     def count_null(self): 
         # approach number 1
@@ -79,8 +82,9 @@ df = DataFrameInfo(finance_df)
 # df.count_null() #that works. They're all in the 2 milliion's, but different values 
 # df.perc_null() # they all come out to around 98%, which is bonkers, but fits with the null count. 
 # df.count_elements() # 2386164
+# df.tabulate_non_null_values() #it works but it's a mess to look at. # I'm losing time! 
 
-df.tabulate_non_null_values()
+
 
 """ 
 #Giving my data frame a short and sweet name to work with 
