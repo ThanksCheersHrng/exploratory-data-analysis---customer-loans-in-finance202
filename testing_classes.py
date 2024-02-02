@@ -43,10 +43,23 @@ class DataFrameInfo():
         # table = [[columns, means, medians, modes], [self.col_names, means, meds, mode]]
         # print(tabulate(table))
 
-    def tabulate_non_null_values(self): #I'm struggling to believe over 97% of the entries in every column are NA's.  
-        print(self.table)
+    # def tabulate_non_null_values(self): #I'm struggling to believe over 97% of the entries in every column are NA's.  
+        # print(self.table)
         # self.table = pd.DataFrame(self.table)
         # self.table.to_csv('Table_of_non_null_values.csv', sep = " ") #it was too big to be legible in vs code so I thought to export to csv # just got a bunch of ones; clearly not identifying the right 'sep'
+
+    # I used ChatGPT here to clarify my code for the tabulation function. 
+        def tabulate_and_export(self, column_name, output_csv_path):
+        # Check if the specified column exists in the DataFrame
+            if column_name not in self.data_frame.columns:
+                raise ValueError(f"Column '{column_name}' not found in DataFrame.")
+        # Use value_counts to tabulate the values in the specified column
+            value_counts_table = self.data_frame[column_name].value_counts()
+        # Convert the value_counts result to a DataFrame for better formatting
+            value_counts_df = pd.DataFrame({column_name: value_counts_table.index, 'Count': value_counts_table.values})
+        # Export the DataFrame to a CSV file
+            value_counts_df.to_csv(output_csv_path, index=False)
+            print(f"Table exported to {output_csv_path}")
 
     def count_null(self): 
         # approach number 1
@@ -76,7 +89,7 @@ class DataFrameInfo():
 df = DataFrameInfo(finance_df)
 # the applicatons of each method below get commented out as I confirm they work 
 # df.data_types()
-# df.col_names()
+df.col_names()
 # df.stats()
 # df.print_shape() # (54231, 44)
 # df.count_null() #that works. They're all in the 2 milliion's, but different values 
@@ -84,6 +97,9 @@ df = DataFrameInfo(finance_df)
 # df.count_elements() # 2386164
 # df.tabulate_non_null_values() #it works but it's a mess to look at. # I'm losing time! 
 
+
+# Call the tabulate_and_export method
+# df.tabulate_and_export(column_name='column_to_tabulate', output_csv_path='output_file.csv')
 
 
 """ 
