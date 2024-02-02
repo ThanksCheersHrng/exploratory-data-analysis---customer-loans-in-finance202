@@ -1,0 +1,21 @@
+correlation matrix is broken by ambiguous formatting... after some discussion, Recommendation from ChatGPT: 
+
+The date_parser parameter in pd.read_csv allows you to provide a function for custom parsing of date columns. This can be useful if the default parser doesn't handle your date format correctly. Here's an example of how you can use date_parser:
+
+python
+
+import pandas as pd
+
+# Define a custom date parser function
+def custom_date_parser(date_str):
+    # Your custom parsing logic here
+    return pd.to_datetime(date_str, format='%Y-%m-%d')  # Adjust the format according to your date format
+
+# Specify the custom date parser for the relevant columns
+date_columns = ['issue_date', 'earliest_credit_line', 'last_payment_date', 'next_payment_date', 'last_credit_pull_date']
+finance_df = pd.read_csv("dataframe.csv", parse_dates=date_columns, date_parser=custom_date_parser)
+
+In this example, the custom_date_parser function takes a date string and converts it to a datetime object using pd.to_datetime. You should adjust the format parameter in pd.to_datetime according to the actual format of your date strings.
+
+By providing this custom date parser function, you have more control over how the date columns are parsed, allowing you to handle non-standard date formats.
+

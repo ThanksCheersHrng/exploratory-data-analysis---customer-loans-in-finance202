@@ -7,10 +7,13 @@ import pandas as pd
 # from data_cleaning_for_EDA import DataFrameInfo 
 
 #import load_to_pandas for access to the db. 
+#look into parsing dates more effectively with a custom date parser? #see notes in date_parser.txt
 finance_df = pd.read_csv("dataframe.csv", parse_dates= ['issue_date', 'earliest_credit_line','last_payment_date', 'next_payment_date','last_credit_pull_date'])
 finance_df['employment_length'] = finance_df['employment_length'].str.extract("([-+]?\d*\.\d+|[-+]?\d+)").astype(float)
 finance_df['term'] = finance_df['term'].str.extract("([-+]?\d*\.\d+|[-+]?\d+)").astype(float)
 finance_df.rename(columns = {'employment_length':'years_of_employment', 'term' : 'term_length_in_months'}, inplace = True) 
+
+
 
 class DataFrameInfo():
     def __init__(self, data_frame):
@@ -26,8 +29,9 @@ class DataFrameInfo():
         print(data_types)
 
     def col_names(self): 
-        header = self.data_frame.columns 
-    
+        col_names = self.data_frame.columns 
+        print(col_names)
+
     def stats(self): 
         means = self.data_frame.mean(numeric_only=True) #addition unsupported for float and str, so force float and ignore str?  
         meds = self.data_frame.median(numeric_only=True)
@@ -49,17 +53,17 @@ class DataFrameInfo():
         # self.table.to_csv('Table_of_non_null_values.csv', sep = " ") #it was too big to be legible in vs code so I thought to export to csv # just got a bunch of ones; clearly not identifying the right 'sep'
 
     # I used ChatGPT here to clarify my code for the tabulation function. 
-        def tabulate_and_export(self, column_name, output_csv_path):
+    def tabulate_and_export(self, column_name, output_csv_path):
         # Check if the specified column exists in the DataFrame
-            if column_name not in self.data_frame.columns:
-                raise ValueError(f"Column '{column_name}' not found in DataFrame.")
+        if column_name not in self.data_frame.columns:
+            raise ValueError(f"Column '{column_name}' not found in DataFrame.")
         # Use value_counts to tabulate the values in the specified column
-            value_counts_table = self.data_frame[column_name].value_counts()
+        value_counts_table = self.data_frame[column_name].value_counts()
         # Convert the value_counts result to a DataFrame for better formatting
-            value_counts_df = pd.DataFrame({column_name: value_counts_table.index, 'Count': value_counts_table.values})
+        value_counts_df = pd.DataFrame({column_name: value_counts_table.index, 'Count': value_counts_table.values})
         # Export the DataFrame to a CSV file
-            value_counts_df.to_csv(output_csv_path, index=False)
-            print(f"Table exported to {output_csv_path}")
+        value_counts_df.to_csv(output_csv_path, index=False)
+        print(f"Table exported to {output_csv_path}")
 
     def count_null(self): 
         # approach number 1
@@ -83,24 +87,29 @@ class DataFrameInfo():
         # print(self.data_frame.) 
         pass
     
-    def cor_coef(self): 
-        pass 
+    def corr_matrix(self): 
+        # numeric_columns = self.data_frame.select_dtypes(include = np.number)
+        print(self.data_frame.corr(numeric_only=True))
+        # print(numeric_columns.corr()) #Troubleshooted UserWarnings and Errors with the help of chatGPT; it's faster than StackOverflow 
+
+
 
 df = DataFrameInfo(finance_df)
 # the applicatons of each method below get commented out as I confirm they work 
 # df.data_types()
-df.col_names()
+# df.col_names()
 # df.stats()
 # df.print_shape() # (54231, 44)
 # df.count_null() #that works. They're all in the 2 milliion's, but different values 
 # df.perc_null() # they all come out to around 98%, which is bonkers, but fits with the null count. 
 # df.count_elements() # 2386164
 # df.tabulate_non_null_values() #it works but it's a mess to look at. # I'm losing time! 
-
+### With a better tabulation method (below), exported a csv, read it into load_to_pandas, and determined (for example) the last_payment_amount column has 54231 non-NA values. 54231/2386164 = 2.27% so we're good. Yeah, there just really are a shitton of NA's.
 
 # Call the tabulate_and_export method
-# df.tabulate_and_export(column_name='column_to_tabulate', output_csv_path='output_file.csv')
+# df.tabulate_and_export(column_name='last_payment_amount', output_csv_path='last_payment_amount_tabulated.csv')
 
+df.corr_matrix
 
 """ 
 #Giving my data frame a short and sweet name to work with 
