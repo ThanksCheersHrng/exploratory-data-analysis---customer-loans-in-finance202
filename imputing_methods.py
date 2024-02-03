@@ -54,9 +54,9 @@ class DataFrameTransform():
 	def __getitem__(self, key): 
 		return self.data_frame[key]
 
-	def drop_weak_columns(self): 
-		threshold = 0.25 	
-		for column in self.data_frame.columns: 
-			if self.data_frame[column].isna().mean() > threshold: 
-				self.data_frame = self.data_frame.drop(column, axis = 1)
-        return self.data_frame
+def drop_weak_columns(self): 
+    threshold = 0.25 	
+    for column in self.data_frame.columns: 
+        if self.data_frame[column].isna().mean() > threshold: 
+            self.data_frame = self.data_frame.drop(column, axis = 1)
+    return self.data_frame
