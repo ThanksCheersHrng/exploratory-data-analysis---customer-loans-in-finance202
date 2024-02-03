@@ -1,5 +1,5 @@
 import numpy as np
-import pandas as pd 
+import pandas as pd  
 import data_cleaning_for_EDA as dc 
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -33,6 +33,12 @@ class MultipleInheritanceTestClass(im.Plotter, dc.DataFrameInfo):
     pass
 
 df = MultipleInheritanceTestClass(finance_df)
+
+# deciding which (if any) columns have too many NULLs: 
+
+df.print_shape()
+df.perc_null()
+
 
 # df.plot_column('issue_date') # Late 2009 looks very popular. 
 

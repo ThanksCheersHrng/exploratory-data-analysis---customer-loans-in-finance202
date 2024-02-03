@@ -45,3 +45,5 @@ class Plotter:
         sns.histplot(self.data_frame[column_name], kde=True)
         plt.title(f'Distribution of {column_name}')
         plt.show()
+
+
