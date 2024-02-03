@@ -8,20 +8,14 @@ finance_df['employment_length'] = finance_df['employment_length'].str.extract("(
 finance_df['term'] = finance_df['term'].str.extract("([-+]?\d*\.\d+|[-+]?\d+)").astype(float)
 finance_df.rename(columns = {'employment_length':'years_of_employment', 'term' : 'term_length_in_months'}, inplace = True) 
 
-# print(finance_df['term_length_in_months'].head())
-# print(type(finance_df['last_payment_date'][0]))
-# print(finance_df['last_payment_date'][0])
-# last_payment_date is a Timestamp dtype 
-# print(finance_df['last_payment_date'].isna().sum()) #73 nice
-
-# print(finance_df['last_credit_pull_date'].head())
-# print(type(finance_df['last_credit_pull_date'][1])) #datetime64 (all the rest were timestamp)
-# print(finance_df['last_credit_pull_date'].isna().sum()) #7 
-
 class DataFrameInfo():
     def __init__(self, data_frame):
         self.data_frame = data_frame
         self.table = self.data_frame.value_counts()
+
+    def __getitem__(self, key): #this will only allow me to work with one coulmn at a time. 
+        # Delegate the indexing operation to the underlying DataFrame
+        return self.data_frame[key]
 
     def count_cells_in_df_matrix(self):
         element_count = self.data_frame.size
@@ -88,5 +82,3 @@ class DataFrameInfo():
 
 
 df = DataFrameInfo(finance_df)
-
-df.corr_matrix()
