@@ -34,8 +34,8 @@ class DataFrameInfo():
 
     def stats(self): 
         means = self.data_frame.mean(numeric_only=True) #addition unsupported for float and str, so force float and ignore str?  
-        meds = self.data_frame.median(numeric_only=True)
-        mode = self.data_frame.mode(axis=1, dropna=True)
+        meds = self.data_frame.median(numeric_only=True) 
+        mode = self.data_frame.mode(axis=1, dropna=True) 
         # print(mode) # still returns a whole bunch of 0.0, NaN, NaT, despite dropna=True # as I supsected, mode has no issue with str. 
         
         #### One possible way to display it all: 
@@ -68,7 +68,7 @@ class DataFrameInfo():
     def count_null(self): 
         # approach number 1
         # createa a count of this somehow: 
-            # (self.data_frame.isna)  # this is boolean same-sized df showing places of NA elts (so like, count if =True)
+        print(self.data_frame.isna().sum())  # this is boolean same-sized df showing places of NA elts (so like, count if =True)
         # approach number 2
         all_count = self.data_frame.size # n. elts in array
         non_null_count = self.data_frame.count() # n. non-null elts
@@ -76,6 +76,8 @@ class DataFrameInfo():
         print(null_count)
     
     def perc_null(self): 
+        print(self.data_frame.isna().mean()*100)
+        # My first method came from pandas documentation. The method above came from AiCore's lesson Notebook. 
         numerator = self.data_frame.size - self.data_frame.count()
         denominator = self.data_frame.size
         print(100*numerator/denominator)
@@ -100,7 +102,7 @@ df = DataFrameInfo(finance_df)
 # df.col_names()
 # df.stats()
 # df.print_shape() # (54231, 44)
-# df.count_null() #that works. They're all in the 2 milliion's, but different values 
+df.count_null() #that works. They're all in the 2 milliion's, but different values 
 # df.perc_null() # they all come out to around 98%, which is bonkers, but fits with the null count. 
 # df.count_elements() # 2386164
 # df.tabulate_non_null_values() #it works but it's a mess to look at. # I'm losing time! 
@@ -109,7 +111,9 @@ df = DataFrameInfo(finance_df)
 # Call the tabulate_and_export method
 # df.tabulate_and_export(column_name='last_payment_amount', output_csv_path='last_payment_amount_tabulated.csv')
 
-df.corr_matrix
+# df.corr_matrix
+
+
 
 """ 
 #Giving my data frame a short and sweet name to work with 
