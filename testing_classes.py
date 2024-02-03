@@ -10,17 +10,28 @@ import pandas as pd
 #look into parsing dates more effectively with a custom date parser? #see notes in date_parser.txt
 finance_df = pd.read_csv("dataframe.csv", parse_dates= ['issue_date', 'earliest_credit_line','last_payment_date', 'next_payment_date','last_credit_pull_date'])
 finance_df['employment_length'] = finance_df['employment_length'].str.extract("([-+]?\d*\.\d+|[-+]?\d+)").astype(float)
+# print(finance_df['term'].head())
 finance_df['term'] = finance_df['term'].str.extract("([-+]?\d*\.\d+|[-+]?\d+)").astype(float)
 finance_df.rename(columns = {'employment_length':'years_of_employment', 'term' : 'term_length_in_months'}, inplace = True) 
 
+# print(finance_df['term_length_in_months'].head())
+# print(type(finance_df['last_payment_date'][0]))
+# print(finance_df['last_payment_date'][0])
+# last_payment_date is a Timestamp dtype 
+# print(finance_df['last_payment_date'].isna().sum()) #73 nice
 
+
+# print(finance_df['earliest_credit_line'].head())
+# print(type(finance_df['earliest_credit_line'][0])) #also a timestamp
+# print(finance_df['earliest_credit_line'].isna().sum()) #0 
+# Using tabulate method below found this column has 54231 as a total count. 
 
 class DataFrameInfo():
     def __init__(self, data_frame):
         self.data_frame = data_frame
         self.table = self.data_frame.value_counts()
 
-    def count_elements(self):
+    def count_cells_in_df_matrix(self):
         element_count = self.data_frame.size
         print(element_count)
 
@@ -33,9 +44,11 @@ class DataFrameInfo():
         print(col_names)
 
     def stats(self): 
-        means = self.data_frame.mean(numeric_only=True) #addition unsupported for float and str, so force float and ignore str?  
-        meds = self.data_frame.median(numeric_only=True) 
-        mode = self.data_frame.mode(axis=1, dropna=True) 
+        #Reviewed AiCore's Notebooks. 
+        print(self.data_frame.describe())
+        #means = self.data_frame.mean(numeric_only=True) #addition unsupported for float and str, so force float and ignore str?  
+        #meds = self.data_frame.median(numeric_only=True) 
+        #mode = self.data_frame.mode(axis=1, dropna=True) 
         # print(mode) # still returns a whole bunch of 0.0, NaN, NaT, despite dropna=True # as I supsected, mode has no issue with str. 
         
         #### One possible way to display it all: 
@@ -85,13 +98,26 @@ class DataFrameInfo():
     def print_shape(self): 
         print(self.data_frame.shape)
     
-    def count_distinct(self):
-        # print(self.data_frame.) 
+    def count_distinct_and_export(self, column_name, output_csv_path):
+        # Check if the specified column exists in the DataFrame
+        if column_name not in self.data_frame.columns:
+            raise ValueError(f"Column '{column_name}' not found in DataFrame.")
+        # Use value_counts to tabulate the values in the specified column
+        distinct_counts_table = self.data_frame[column_name].count_distinct()
+        # Convert the value_counts result to a DataFrame for better formatting
+        distinct_counts_df = pd.DataFrame({column_name: distinct_counts_table.index, 'Count': distinct_counts_table.values})
+        # Export the DataFrame to a CSV file
+        distinct_counts_df.to_csv(output_csv_path, index=False)
+        print(f"Table exported to {output_csv_path}")
+
+    def count_distinct(self): #this is a mess of a display, default to use above.
+        print(self.data_frame.value_counts()) 
         pass
     
     def corr_matrix(self): 
+        pass
         # numeric_columns = self.data_frame.select_dtypes(include = np.number)
-        print(self.data_frame.corr(numeric_only=True))
+        # print(self.data_frame.corr(numeric_only=True))
         # print(numeric_columns.corr()) #Troubleshooted UserWarnings and Errors with the help of chatGPT; it's faster than StackOverflow 
 
 
@@ -108,9 +134,11 @@ df = DataFrameInfo(finance_df)
 ### With a better tabulation method (below), exported a csv, read it into load_to_pandas, and determined (for example) the last_payment_amount column has 54231 non-NA values. 54231/2386164 = 2.27% so we're good. Yeah, there just really are a shitton of NA's.
 
 # Call the tabulate_and_export method
-# df.tabulate_and_export(column_name='open_accounts', output_csv_path='open_accounts_tabulated.csv')
-#I've identified open accounts tabulated Count sums to 54231 
-print(df.count_elements == 2331933 + 54231) #these don't add up!!! 
+# df.tabulate_and_export(column_name='earliest_credit_line', output_csv_path='earliest_credit_line_tabulated.csv')
+# I've identified open accounts tabulated Count sums to 54231 
+# print(df.count_elements == 2331933 + 54231) #these don't add up!!! 
+# df.count_distinct()
+# df.stats()
 
 # df.corr_matrix
 

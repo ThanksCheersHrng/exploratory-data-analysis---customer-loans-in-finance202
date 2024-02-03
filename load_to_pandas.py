@@ -12,7 +12,7 @@ import pandas as pd
 
 # finance_df = pd.read_csv("dataframe.csv", parse_dates= ['issue_date', 'earliest_credit_line','last_payment_date', 'next_payment_date','last_credit_pull_date'])
 
-column_tabulated_df = pd.read_csv("open_accounts_tabulated.csv")
+column_tabulated_df = pd.read_csv("earliest_credit_line_tabulated.csv")
 
 # print(last_payment_amount_tabulated_df.head())
 
