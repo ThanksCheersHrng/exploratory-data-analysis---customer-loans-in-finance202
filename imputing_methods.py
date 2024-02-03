@@ -39,8 +39,3 @@ class Plotter:
         plt.title(f'Count of each category in {column_name}')
         plt.show()
 
-    def _plot_datetime_column(self, column_name):
-        plt.figure(figsize=(10, 6))
-        sns.lineplot(x=self.data_frame.index, y=column_name, data=self.data_frame)
-        plt.title(f'Time series plot for {column_name}')
-        plt.show()
