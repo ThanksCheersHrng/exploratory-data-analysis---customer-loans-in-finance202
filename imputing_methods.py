@@ -39,3 +39,9 @@ class Plotter:
         plt.title(f'Count of each category in {column_name}')
         plt.show()
 
+    #add a method for datetime data that treats it like numeric. 
+    def _plot_datetime_column(self, column_name):
+        plt.figure(figsize=(8, 6))
+        sns.histplot(self.data_frame[column_name], kde=True)
+        plt.title(f'Distribution of {column_name}')
+        plt.show()
