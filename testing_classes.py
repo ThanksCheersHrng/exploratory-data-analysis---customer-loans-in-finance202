@@ -18,8 +18,6 @@ finance_df.rename(columns = {'employment_length':'years_of_employment', 'term' :
 # print(type(finance_df['last_credit_pull_date'][1])) #datetime64 (all the rest were timestamp)
 # print(finance_df['last_credit_pull_date'].isna().sum()) #7 
 
-
-
 class DataFrameInfo():
     def __init__(self, data_frame):
         self.data_frame = data_frame
@@ -77,10 +75,17 @@ class DataFrameInfo():
         print(self.data_frame.value_counts()) 
     
     def corr_matrix(self): 
-        # if dtype('column') is timestamp or datetime64:
-          #  self.data_frame['column'] = self.data_frame['column'].dt.month # Not sure if month or year is better- number of months would be best, but perhaps these four columns aren't worth the trouble! 
-        print(self.data_frame.corr(numeric_only=True)) #now suddently it works?? I don't recall cleaning my data any more than it was before when this was tripping all over the shop!! 
+        original_corr_matrix = self.data_frame.corr(numeric_only=True)
+        print("Full Numeric Correlation Matrix:")
+        print(self.data_frame.corr(numeric_only=True)) 
         #it's such a massive column, I'd like to narrow it down to spit out any correlations with an absolute value greater than 65%. 
+        threshold = 0.65
+        high_abs_corr_matrix = original_corr_matrix[(original_corr_matrix.abs() > threshold) & (original_corr_matrix < 1.0)] # this will also remove self-correlations. 
+        high_abs_corr_matrix = high_abs_corr_matrix.dropna(axis=1, how='all').dropna(axis=0, how='all')
+        
+        print(f"\nCorrelation Matrix with Correlations > {threshold} or < -{threshold}:")
+        print(high_abs_corr_matrix)
+
 
 df = DataFrameInfo(finance_df)
 
