@@ -16,8 +16,8 @@ class DataFrameInfo():
         print(element_count)
 
     def data_types(self): 
-        data_types = self.data_frame.dtypes
-        print(data_types)
+        data_types_listed = self.data_frame.dtypes
+        print(data_types_listed)
 
     def col_names(self): 
         col_names = self.data_frame.columns 
