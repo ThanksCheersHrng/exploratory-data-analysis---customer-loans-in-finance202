@@ -12,11 +12,11 @@ import pandas as pd
 
 # finance_df = pd.read_csv("dataframe.csv", parse_dates= ['issue_date', 'earliest_credit_line','last_payment_date', 'next_payment_date','last_credit_pull_date'])
 
-last_payment_amount_tabulated_df = pd.read_csv("last_payment_amount_tabulated.csv")
+column_tabulated_df = pd.read_csv("open_accounts_tabulated.csv")
 
 # print(last_payment_amount_tabulated_df.head())
 
-s = last_payment_amount_tabulated_df['Count']
+s = column_tabulated_df['Count']
 
 #print(type(s)) # confirms this is a Series, so, should be able to: 
 

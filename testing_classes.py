@@ -70,17 +70,17 @@ class DataFrameInfo():
         # createa a count of this somehow: 
         print(self.data_frame.isna().sum())  # this is boolean same-sized df showing places of NA elts (so like, count if =True)
         # approach number 2
-        all_count = self.data_frame.size # n. elts in array
-        non_null_count = self.data_frame.count() # n. non-null elts
-        null_count = all_count - non_null_count
-        print(null_count)
+        # all_count = self.data_frame.size # n. elts in array
+        # non_null_count = self.data_frame.count() # n. non-null elts
+        # null_count = all_count - non_null_count
+        # print(null_count)
     
     def perc_null(self): 
         print(self.data_frame.isna().mean()*100)
         # My first method came from pandas documentation. The method above came from AiCore's lesson Notebook. 
-        numerator = self.data_frame.size - self.data_frame.count()
-        denominator = self.data_frame.size
-        print(100*numerator/denominator)
+        # numerator = self.data_frame.size - self.data_frame.count()
+        # denominator = self.data_frame.size
+        # print(100*numerator/denominator)
     
     def print_shape(self): 
         print(self.data_frame.shape)
@@ -95,21 +95,22 @@ class DataFrameInfo():
         # print(numeric_columns.corr()) #Troubleshooted UserWarnings and Errors with the help of chatGPT; it's faster than StackOverflow 
 
 
-
 df = DataFrameInfo(finance_df)
 # the applicatons of each method below get commented out as I confirm they work 
 # df.data_types()
 # df.col_names()
 # df.stats()
 # df.print_shape() # (54231, 44)
-df.count_null() #that works. They're all in the 2 milliion's, but different values 
+# df.count_null() #that works. They're all in the 2 milliion's, but different values 
 # df.perc_null() # they all come out to around 98%, which is bonkers, but fits with the null count. 
 # df.count_elements() # 2386164
 # df.tabulate_non_null_values() #it works but it's a mess to look at. # I'm losing time! 
 ### With a better tabulation method (below), exported a csv, read it into load_to_pandas, and determined (for example) the last_payment_amount column has 54231 non-NA values. 54231/2386164 = 2.27% so we're good. Yeah, there just really are a shitton of NA's.
 
 # Call the tabulate_and_export method
-# df.tabulate_and_export(column_name='last_payment_amount', output_csv_path='last_payment_amount_tabulated.csv')
+# df.tabulate_and_export(column_name='open_accounts', output_csv_path='open_accounts_tabulated.csv')
+#I've identified open accounts tabulated Count sums to 54231 
+print(df.count_elements == 2331933 + 54231) #these don't add up!!! 
 
 # df.corr_matrix
 
