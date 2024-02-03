@@ -1,5 +1,7 @@
 import numpy as np
 import pandas as pd 
+import data_cleaning_for_EDA as dc 
+
 
 #look into parsing dates more effectively with a custom date parser? #see notes in date_parser.txt
 finance_df = pd.read_csv("dataframe.csv", parse_dates= ['issue_date', 'earliest_credit_line','last_payment_date', 'next_payment_date','last_credit_pull_date'])
@@ -11,4 +13,6 @@ finance_df.rename(columns = {'employment_length':'years_of_employment', 'term' :
 
 
 
-df = DataFrameInfo(finance_df)
+df = dc.DataFrameInfo(finance_df)
+
+df.stats()
