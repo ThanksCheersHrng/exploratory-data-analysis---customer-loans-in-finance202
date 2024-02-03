@@ -13,6 +13,9 @@ finance_df['employment_length'] = finance_df['employment_length'].str.extract("(
 finance_df['term'] = finance_df['term'].str.extract("([-+]?\d*\.\d+|[-+]?\d+)").astype(float)
 finance_df.rename(columns = {'employment_length':'years_of_employment', 'term' : 'term_length_in_months'}, inplace = True) 
 
-df = im.Plotter(finance_df)
+class MultipleInheritanceTestClass(im.Plotter, dc.DataFrameInfo):
+    pass
 
-df.plot_column('last_payment_date')
+df = MultipleInheritanceTestClass(finance_df)
+
+df.plot_column('issue_date')
