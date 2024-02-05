@@ -8,7 +8,6 @@ class DataFrameInfo():
         self.table = self.data_frame.value_counts()
 
     def __getitem__(self, key): #this will only allow me to work with one coulmn at a time. 
-        # Delegate the indexing operation to the underlying DataFrame
         return self.data_frame[key]
 
     def count_cells_in_df_matrix(self):

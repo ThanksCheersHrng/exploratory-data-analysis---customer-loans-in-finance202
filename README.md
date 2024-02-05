@@ -38,6 +38,15 @@ Let's see where this project takes us, shall we?
 	1.  Within the class definition, try stripping out each variable from df 
     2.  so later I can (in theory) perform operations on (or... create methods relating to...) individual columns- might be easier than trying to get the class to use pd/np functions? 
 	As of 01.29.20.34, got help from Mat (lots of help- so many issues, bashrc and windows env var's clashing, as well as not knowing how to structure methods within classes using the self approprately- i think now i do, see 'what i've learned.') and now at least two methods in DataFrameInfo() work and the code has stopped breaking at every available opportunity. Mat also recommended .ipynb instead of .py, so that i can run code in chunks! Also had to set up env variable properly.  
+
+- ongoing_workspace.ipynb, added 2024.01.03 since ipynb can run sections at a time; this means I don't have to run a separate Python interpreter session (and thereby re-import all modules, taking up time) every time I want to check a piece of code. This file essentially replaces the functionality of testing_clases.py. 
+
+- notes_for_later.txt, added 2024.01.03; does what it says on the tin. 
+
+- imputing_methods.py, added 2024.01.03; adds the DataFrameTransform and Plotter classes assigned in task 3 of milestone 3, to help with... you guessed it: imputing and removing data. 
+
+- There are a handful of csv's added to the repo at various times when I want to examine a single column in csv format. I've tended to then play with them in load_to_pandas.py, which has become a semi-outdated space where I can work on csv's. 
+
 ## Project Decription 
 ### Aims: 
 	1. Set up the environment
@@ -69,6 +78,7 @@ Let's see where this project takes us, shall we?
 	While developing the Plotter function I deepened my understanding of the distinction between the object dtype and the categorical dtype. Object seems to be the default when reading csv's with pandas, and it can apply to more data types, such as mixed types. However, if inspection suggests the data is truly categorical, converting it to categorical data will make the data frame more memory efficient, and allows those columns of data to be more easily analysed, since categorical data can be grouped and ordered. 
 	I noticed my code was really starting to slow down as I imported and used multiple homemade modules into my testing_classes.py code. I wondered if it was all the multiple imports of pandas that was causing this slow down, and learned in fact that once the module has been imported once into Python, it is saved to sys.modules; this occurs once per interpreter session, and every subsequent "import" written in code will be skipped because Python recognises that module from its sys.modules... so I learned something new there, but still don't know why my code's getting slower. I also realise that an interpreter session means either one ongoing session in an IDE, or a single run of the code by executing it through the terminal (which is what I'm doing when I press play on my code in VSCode.) So every time I want to test my .py code in VS code, I have to reimport, which does take time; meanwhile, if I were using Spyder (which I am use to) or if I started using a Jupyter Notebook (.ipynb?) then my interpreter session would last as long as needed and I could run smaller chunks of code to test them without having to reimport modules and reload data frames from csvs every go. 
 	I've learned that bad datetimes parsing can lead to all datetimes being coerced into NA's. 
+	I've learned that modifying a DataFrame in a loop (e.g. a for loop) reduces readability and performance, especially if that DataFrame is large or that function is nested inside a Class method; an alternative is to use boolean indexing and essentially replace/remove/modify all the appropriate columns at once. 
 	4. 
 
 ## Installation instructions 

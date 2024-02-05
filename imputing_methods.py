@@ -47,16 +47,16 @@ class Plotter:
         plt.show()
 
 
-class DataFrameTransform():  
-	def __init__(self, data_frame): 
-		self.data_frame = data_frame
-	
-	def __getitem__(self, key): 
-		return self.data_frame[key]
+# I used ChatGPT to improve the following class, turning my for > if structure in drop_weak_columns into a boolean indexing style function, introducing more flexibility by treating the threshold as a parameter, and turning getitem into a method to improve consistency and encapsulation. 
+class DataFrameTransform:
+    def __init__(self, data_frame): 
+        self.data_frame = data_frame
+    
+    def __getitem__(self, key): 
+        return self.data_frame[key]
 
-def drop_weak_columns(self): 
-    threshold = 0.25 	
-    for column in self.data_frame.columns: 
-        if self.data_frame[column].isna().mean() > threshold: 
-            self.data_frame = self.data_frame.drop(column, axis = 1)
-    return self.data_frame
+    def drop_weak_columns(self, threshold=0.25):  # still has a default parameter of 0.25 so I shouldn't have to change implementation code. 
+        weak_columns = self.data_frame.columns[self.data_frame.isna().mean() > threshold]
+        self.data_frame = self.data_frame.drop(columns=weak_columns)
+        return self.data_frame
+    
