@@ -8,6 +8,9 @@ class Plotter:
     def __init__(self, data_frame):
         self.data_frame = data_frame
 
+    def __getitem__(self, key): 
+        return self.data_frame[key]
+
     def plot_column(self, column_name):
         # Check if the column exists in the DataFrame
         if column_name not in self.data_frame.columns:
@@ -68,4 +71,6 @@ class DataFrameTransform:
             self.data_frame[column].fillna(replace_with_this, inplace = True)
             # I later found out .fillna CAN work on a data frame as well. 
     
-    def 
+    def skew_transform(self):
+        # skewed_columns = 
+        pass 
