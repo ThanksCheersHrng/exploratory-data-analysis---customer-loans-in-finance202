@@ -60,3 +60,11 @@ class DataFrameTransform:
         self.data_frame = self.data_frame.drop(columns=weak_columns)
         return self.data_frame
     
+    def impute_null_values(self):
+        null_columns = self.data_frame.columns[self.data_frame.isna().mean() > 0]
+        # .fillna method works on Series, so individual breakdown:
+        for column in null_columns:
+            replace_with_this = self.data_frame[column].median()
+            self.data_frame[column].fillna(replace_with_this, inplace = True)
+            # I later found out .fillna CAN work on a data frame as well. 
+    
