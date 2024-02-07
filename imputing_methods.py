@@ -30,9 +30,15 @@ class Plotter:
         else:
             print(f"Unsupported data type for column '{column_name}'.")
 
-    def _plot_numeric_column(self, column_name):
+    def _plot_numeric_column(self, column_name, transformer = None):
+        # option to transform the data before plotting a numerical column - to check effect on skew 
+        if transformer is None: 
+            transformer = lambda x: x  # setting up the default as the identity transformation using lambda. 
+        # I thought about setting up default options for other transformations here, but I'll leave setting up other options for transformations to the implementation in ongoing_workspace. 
+        transformed_data = transformer(self.data_frame[column_name])
+        # run the original code on the transformed data instead 
         plt.figure(figsize=(8, 6))
-        sns.histplot(self.data_frame[column_name], kde=True)
+        sns.histplot(transformed_data, kde=True)
         plt.title(f'Distribution of {column_name}')
         plt.show()
 

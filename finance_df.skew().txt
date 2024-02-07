@@ -1,0 +1,34 @@
+Unnamed: 0                    0.0
+id                            0.0
+mem
+Unnamed: 0                      0.000000
+id                              2.370336 # looks trimodal, with a "right skew"
+member_id                       2.205422 # looks trimodal, with a "right skew"
+loan_amount                     0.805259
+funded_amount                   0.821787
+funded_amount_inv               0.813927
+term_length_in_months           1.006387
+int_rate                        0.412032
+instalment                      0.996981
+years_of_employment            -0.030888
+annual_inc                      8.711831 # strong kurtosis and strong right skew 
+dti                             0.189420
+delinq_2yrs                     5.370002 # strong kurtosis, strong right skew 
+inq_last_6mths                  3.248918 # looks like a geometric sequence... again, strong right skew 
+mths_since_last_delinq          0.438109
+mths_since_last_record         -0.839995
+open_accounts                   1.059282 
+total_accounts                  0.779014
+out_prncp                       2.356426 # basically looks like a massive mode at 0 and then a miniscule count elsewhere, right skew 
+out_prncp_inv                   2.356848 # same as above
+total_payment                   1.267891 # moderate right skew 
+total_payment_inv               1.256197 # moderate right skew 
+total_rec_prncp                 1.261015 # moderate right skew but with loads of modal spikes 
+total_rec_int                   2.204322 # somewhat stronger right skew 
+total_rec_late_fee             13.184305 # basically looks like one option, but apparently goes out to 350... so extremely right skewed
+recoveries                     14.589793 # same as above, except it goes out to 25000
+collection_recovery_fee        27.636843 # same as above, massive right skew - try recip_transform and log100_transform 
+last_payment_amount             2.499381 # pretty strong right skew 
+collections_12_mths_ex_med     20.252780 # massive right skew 
+mths_since_last_major_derog     0.164176
+policy_code                     0.000000
