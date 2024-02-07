@@ -27,7 +27,7 @@ total_rec_prncp                 1.261015 # moderate right skew but with loads of
 total_rec_int                   2.204322 # somewhat stronger right skew 
 total_rec_late_fee             13.184305 # basically looks like one option, but apparently goes out to 350... so extremely right skewed
 recoveries                     14.589793 # same as above, except it goes out to 25000
-collection_recovery_fee        27.636843 # same as above, massive right skew - try recip_transform and log100_transform 
+collection_recovery_fee        27.636843 # same as above, massive right skew - apply log100_transform 
 last_payment_amount             2.499381 # pretty strong right skew 
 collections_12_mths_ex_med     20.252780 # massive right skew 
 mths_since_last_major_derog     0.164176
