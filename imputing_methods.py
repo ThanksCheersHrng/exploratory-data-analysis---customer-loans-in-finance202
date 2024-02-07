@@ -11,7 +11,7 @@ class Plotter:
     def __getitem__(self, key): 
         return self.data_frame[key]
 
-    def plot_column(self, column_name, **kwargs): # make sure it accepts any extra arguments
+    def plot_column(self, column_name, transformer=None): # explicitly take transformer as an argument in function call 
         # Check if the column exists in the DataFrame
         if column_name not in self.data_frame.columns:
             print(f"Column '{column_name}' not found in the DataFrame.")
@@ -21,8 +21,8 @@ class Plotter:
         column_dtype = self.data_frame[column_name].dtype
 
         # Plot based on data type
-        if pd.api.types.is_numeric_dtype(column_dtype, **kwargs): # make sure it accepts any extra arguments
-            self._plot_numeric_column(column_name)
+        if pd.api.types.is_numeric_dtype(column_dtype): 
+            self._plot_numeric_column(column_name, transformer=transformer) # make transformer an explicit attribute on return
         elif pd.api.types.is_categorical_dtype(column_dtype):
             self._plot_categorical_column(column_name)
         elif pd.api.types.is_datetime64_any_dtype(column_dtype):
@@ -30,13 +30,10 @@ class Plotter:
         else:
             print(f"Unsupported data type for column '{column_name}'.")
 
-    def _plot_numeric_column(self, column_name, transformer = None):
-        # option to transform the data before plotting a numerical column - to check effect on skew 
+    def _plot_numeric_column(self, column_name, transformer = None): # default identity (i.e. no) transformation
         if transformer is None: 
             transformer = lambda x: x  # setting up the default as the identity transformation using lambda. 
-        # I thought about setting up default options for other transformations here, but I'll leave setting up other options for transformations to the implementation in ongoing_workspace. 
         transformed_data = transformer(self.data_frame[column_name])
-        # run the original code on the transformed data instead 
         plt.figure(figsize=(8, 6))
         sns.histplot(transformed_data, kde=True)
         plt.title(f'Distribution of {column_name}')
