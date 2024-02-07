@@ -76,8 +76,9 @@ class DataFrameInfo():
     def high_skew_columns(self, threshold = 1.2): 
         skewed_columns = [] 
         for column in self.data_frame.columns: 
-            skewness = self.data_frame[column].skew()
-            if abs(skewness) > threshold: 
-                skewed_columns.append(column)
+            if pd.api.types.is_numeric_dtype(self.data_frame[column]):
+                skewness = self.data_frame[column].skew()
+                if abs(skewness) > threshold: 
+                    skewed_columns.append(column)
         return skewed_columns # return becuase I might want to use this later, so remember to print it. 
 
