@@ -74,6 +74,39 @@ class DataFrameTransform:
             self.data_frame[column].fillna(replace_with_this, inplace = True)
             # I later found out .fillna CAN work on a data frame as well. 
     
-    def skew_transform(self):
-        # skewed_columns = 
+    def skew_transform(self, skewed_columns, transformations):
+        if len(skewed_columns) != len(transformations):
+            raise ValueError("Length of skewed_columns and transformations must be the same.")
+        
+        for column, transform_func in zip(skewed_columns, transformations):
+            if column not in self.data_frame.columns:
+                print(f"Column '{column}' not found in the DataFrame.")
+                continue
+            if not callable(transform_func):
+                print(f"Transformation for column '{column}' is not a function.")
+                continue
+            
+            try:
+                self.data_frame[column] = transform_func(self.data_frame[column])
+                print(f"Transformation applied to column '{column}'.")
+            except Exception as e:
+                print(f"Error applying transformation to column '{column}': {e}")
+                
+"""             
+    def skew_transform(self, skewed_columns, transformations): # the error methods suggested by chatGPT here will help identify which item in which list is causing errors, should any occur. 
+        # check that each skewed column has its own transformaiton specified: 
+        if len(skewed_columns) != len(transformations):
+            raise ValueError("Lengths of skewed_columns and transformations should be the same.")
+        for column, trans_func in zip(skewed_columns, transformations): #cool zip = iterator function! 
+           if column not in self.data_frame.columns: 
+               print(f"Make sure '{column}' is in the data frame.") 
+               continue
+           if not callable(trans_func): 
+               print(f"Check that the transformation {trans_func} is a function.")
+        try: 
+            self.data_frame[column] = trans_func(self.data_frame[column])
+            print(f"transformation '{trans_func}' has been applied to the column, '{column}'.")
+        except Exception as e: 
+            print(f"Error while applying transformation '{trans_func}' to column '{column}: {e}'")
         pass 
+"""
