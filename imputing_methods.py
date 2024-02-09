@@ -11,7 +11,7 @@ class Plotter:
     def __getitem__(self, key): 
         return self.data_frame[key]
 
-    def plot_column(self, column_name, transformer=None): # explicitly take transformer as an argument in function call 
+    def plot_column(self, column_name, transformer=None, log_scale=False): # explicitly take transformer as an argument in function call 
         # Check if the column exists in the DataFrame
         if column_name not in self.data_frame.columns:
             print(f"Column '{column_name}' not found in the DataFrame.")
@@ -30,19 +30,23 @@ class Plotter:
         else:
             print(f"Unsupported data type for column '{column_name}'.")
 
-    def _plot_numeric_column(self, column_name, transformer = None): # default identity (i.e. no) transformation
+    def _plot_numeric_column(self, column_name, transformer = None, log_scale=False): # default identity (i.e. no) transformation
         if transformer is None: 
             transformer = lambda x: x  # setting up the default as the identity transformation using lambda. 
         transformed_data = transformer(self.data_frame[column_name])
         plt.figure(figsize=(8, 6))
         sns.histplot(transformed_data, kde=True)
         plt.title(f'Distribution of {column_name}')
+        if log_scale:
+            plt.yscale('log')
         plt.show()
 
     def _plot_categorical_column(self, column_name):
         plt.figure(figsize=(8, 6))
         sns.countplot(x=column_name, data=self.data_frame)
         plt.title(f'Count of each category in {column_name}')
+        if log_scale:
+            plt.yscale('log')
         plt.show()
 
     #add a method for datetime data that treats it like numeric. 
@@ -50,6 +54,8 @@ class Plotter:
         plt.figure(figsize=(8, 6))
         sns.histplot(self.data_frame[column_name], kde=True)
         plt.title(f'Distribution of {column_name}')
+        if log_scale:
+            plt.yscale('log')
         plt.show()
 
     def boxplot_with_outliers(self, column_name):
