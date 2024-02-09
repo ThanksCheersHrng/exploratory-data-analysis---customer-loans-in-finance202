@@ -35,13 +35,16 @@ class Plotter:
             transformer = lambda x: x  # setting up the default as the identity transformation using lambda. 
         transformed_data = transformer(self.data_frame[column_name])
         plt.figure(figsize=(8, 6))
-        sns.histplot(transformed_data, kde=True)
-        plt.title(f'Distribution of {column_name}')
-        if log_scale:
+        if log_scale==True:
             plt.yscale('log')
+            sns.histplot(transformed_data, kde=True, log_scale=True)
+            plt.title(f'Distribution of {column_name}')
+        else: 
+            sns.histplot(transformed_data, kde=True)
+            plt.title(f'Distribution of {column_name}')
         plt.show()
 
-    def _plot_categorical_column(self, column_name):
+    def _plot_categorical_column(self, column_name, log_scale=False):
         plt.figure(figsize=(8, 6))
         sns.countplot(x=column_name, data=self.data_frame)
         plt.title(f'Count of each category in {column_name}')
@@ -50,7 +53,7 @@ class Plotter:
         plt.show()
 
     #add a method for datetime data that treats it like numeric. 
-    def _plot_datetime_column(self, column_name):
+    def _plot_datetime_column(self, column_name, log_scale=False):
         plt.figure(figsize=(8, 6))
         sns.histplot(self.data_frame[column_name], kde=True)
         plt.title(f'Distribution of {column_name}')
