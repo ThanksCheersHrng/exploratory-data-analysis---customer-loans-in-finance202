@@ -30,18 +30,29 @@ class Plotter:
         else:
             print(f"Unsupported data type for column '{column_name}'.")
 
-    def _plot_numeric_column(self, column_name, transformer = None, log_scale=False): # default identity (i.e. no) transformation
+    def _plot_numeric_column(self, column_name, transformer=None, log_scale=False): 
         if transformer is None: 
-            transformer = lambda x: x  # setting up the default as the identity transformation using lambda. 
+            transformer = lambda x: x
         transformed_data = transformer(self.data_frame[column_name])
+    
         plt.figure(figsize=(8, 6))
-        if log_scale==True:
-            plt.yscale('log')
-            sns.histplot(transformed_data, kde=True, log_scale=True)
-            plt.title(f'Distribution of {column_name}')
-        else: 
-            sns.histplot(transformed_data, kde=True)
-            plt.title(f'Distribution of {column_name}')
+    
+        # Plot histogram using Seaborn
+        sns.histplot(transformed_data, kde=True, color='skyblue')
+    
+        plt.title(f'Distribution of {column_name}')
+        plt.xlabel(column_name)
+    
+        if log_scale:
+            plt.yscale('linear')  # Set y-axis scale to linear
+        
+            # Manually adjust y-axis ticks and labels to logarithmic scale
+            ticks = [1, 10, 100, 1000, 10000]  # Example logarithmic ticks
+            plt.yticks(ticks, [str(tick) for tick in ticks])
+            plt.ylabel('Log Frequency')
+        else:
+            plt.ylabel('Frequency')
+    
         plt.show()
 
     def _plot_categorical_column(self, column_name, log_scale=False):
