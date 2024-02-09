@@ -17,13 +17,19 @@ class DataFrameInfo():
     def data_types(self): 
         data_types_listed = self.data_frame.dtypes
         print(data_types_listed)
+        # return(data_types_listed)
 
-    def col_names(self): 
-        col_names = self.data_frame.columns 
-        print(col_names)
-
+    def col_names(self): #advised by ChatGPT when couldn't call col_names as an iterable/list-- it kept coming back as None type. 
+        if isinstance(self.data_frame, pd.DataFrame):  # Check if self.data_frame is a DataFrame
+            col_names = self.data_frame.columns.tolist()  # Convert columns to a list if self.data_frame is a DataFrame
+            return col_names #must now remember to call print() if I just want to see the col_names. 
+        else:
+            print("Error: 'data_frame' is not a valid DataFrame object.")
+            return None
+        
     def stats(self): 
         print(self.data_frame.describe())
+        # return(self.data_frame.describe())
          
     def tabulate_and_export(self, column_name, output_csv_path):
         # Check if the specified column exists in the DataFrame

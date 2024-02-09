@@ -52,6 +52,21 @@ class Plotter:
         plt.title(f'Distribution of {column_name}')
         plt.show()
 
+    def boxplot_with_outliers(self, column_name):
+        if column_name not in self.data_frame.columns:
+            print(f"Column '{column_name}' not found in the DataFrame.")
+            return
+        # Can't create a boxplot of categorical data since it's not generally ordinal and I haven't made a distinction. 
+        column_dtype = self.data_frame[column_name].dtype
+        if pd.api.types.is_numeric_dtype(column_dtype) or pd.api.types.is_datetime64_any_dtype(column_dtype):
+            plt.figure(figsize=(8, 6))
+            sns.boxplot(x=column_name, data=self.data_frame, showfliers=True) # will show outliers
+            plt.title(f'Box plot with outliers for {column_name}')
+            plt.show()
+        else:
+            print(f"Column '{column_name}' is not of numerical or datetime type, skipping box plot.")
+
+
 
 # I used ChatGPT to improve the following class, turning my for > if structure in drop_weak_columns into a boolean indexing style function, introducing more flexibility by treating the threshold as a parameter, and turning getitem into a method to improve consistency and encapsulation. 
 class DataFrameTransform:

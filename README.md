@@ -81,6 +81,7 @@ Let's see where this project takes us, shall we?
 	I've learned that bad datetimes parsing can lead to all datetimes being coerced into NA's. 
 	I've learned that modifying a DataFrame in a loop (e.g. a for loop) reduces readability and performance, especially if that DataFrame is large or that function is nested inside a Class method; an alternative is to use boolean indexing and essentially replace/remove/modify all the appropriate columns at once. 
 	I knew this already, but I confirmed that I could add a method to a child class without having a reference to a comparable/overwritable method in the parent class; this took place when I wanted to export_to_csv at the end of Task 4, and just plopped that method into the MultipleInheritanceTestClass. 
+	reportMissingImports and reportMissingModuleSources refer to modules that may be called or needed in code, but are not imported; it's confusing to get such errors when I've been using numpy, pandas, matplotlib.pyplot, and seaborn just fine for days and weeks! In exploring these problems, I also ran into the terms 'type stub file,' and 'source file,' the former of which... makes no sense to me at this stage. 
 	4. 
 
 ## Installation instructions 
