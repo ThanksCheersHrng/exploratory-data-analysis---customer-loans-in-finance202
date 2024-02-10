@@ -67,18 +67,45 @@ class DataFrameInfo():
     def count_distinct(self): #this is a mess of a display, default to use the method above.
         print(self.data_frame.value_counts()) 
     
-    def corr_matrix(self): 
-        original_corr_matrix = self.data_frame.corr(numeric_only=True)
-        print("Full Numeric Correlation Matrix:")
-        print(self.data_frame.corr(numeric_only=True)) 
-        #it's such a massive column, I'd like to narrow it down to spit out any correlations with an absolute value greater than 65%. 
-        threshold = 0.65
-        high_abs_corr_matrix = original_corr_matrix[(original_corr_matrix.abs() > threshold) & (original_corr_matrix < 1.0)] # this will also remove self-correlations. 
-        high_abs_corr_matrix = high_abs_corr_matrix.dropna(axis=1, how='all').dropna(axis=0, how='all')
-        
-        print(f"\nCorrelation Matrix with Correlations > {threshold} or < -{threshold}:")
-        print(high_abs_corr_matrix)
+    def corr_matrix(self, threshold=0.65):
+    original_corr_matrix = self.data_frame.corr(numeric_only=True)
+    print("Full Numeric Correlation Matrix:")
+    print(original_corr_matrix)
+
+    # Filter for correlations above the threshold
+    high_corr_indices = np.where((original_corr_matrix.abs() > threshold) & (original_corr_matrix < 1.0))
+    # Return a matrix of just the pairs that are highly correlated
+    high_corr_pairs = [(original_corr_matrix.index[i], original_corr_matrix.columns[j]) for i, j in zip(*high_corr_indices) if i != j]
+
+    # Display scatterplots of high-correlation pairs
+    num_pairs = len(high_corr_pairs)
+    num_cols = 2  # Sensible number of columns to display scatterplots
+    num_rows = (num_pairs + 1) // num_cols  # +1 then floor division to ensure suitable number of rows
+    fig, axes = plt.subplots(nrows=num_rows, ncols=num_cols, figsize=(15, 5 * num_rows))
+
+    # Loop through to make sure every pair gets plotted
+    for idx, (column1, column2) in enumerate(high_corr_pairs):
+        row_idx = idx // num_cols
+        col_idx = idx % num_cols
+
+        ax = axes[row_idx, col_idx] if num_rows > 1 else axes[col_idx]
+        sns.scatterplot(data=self.data_frame, x=column1, y=column2, ax=ax)
+        ax.set_title(f"{column1} vs {column2}")
+
+    # Display plots
+    plt.tight_layout()
+    plt.show()
+
+    # Filter the original correlation matrix for absolute correlations above the threshold
+    high_abs_corr_matrix = original_corr_matrix.loc[
+        high_corr_pairs
+    ]  # Use high_corr_pairs to filter the original matrix
+    high_abs_corr_matrix = high_abs_corr_matrix.dropna(axis=1, how='all').dropna(axis=0, how='all')
+
+    print(f"\nCorrelation Matrix with Correlations > {threshold} or < -{threshold}:")
+    print(high_abs_corr_matrix)
     
+
     def high_skew_columns(self, threshold = 1.2): 
         skewed_columns = [] 
         for column in self.data_frame.columns: 
