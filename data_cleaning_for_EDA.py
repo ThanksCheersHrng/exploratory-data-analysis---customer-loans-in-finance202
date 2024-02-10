@@ -2,6 +2,7 @@
 
 import numpy as np
 import pandas as pd
+import os
 class DataFrameInfo():
     def __init__(self, data_frame):
         self.data_frame = data_frame
