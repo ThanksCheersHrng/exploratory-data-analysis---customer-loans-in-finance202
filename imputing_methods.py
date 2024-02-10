@@ -123,3 +123,26 @@ class DataFrameTransform:
     def drop_any_column(self, column_to_drop):
         self.data_frame.drop(columns=[column_to_drop], inplace=True)
         return self.data_frame
+    
+    def goodbye_high_corr_cols(self, threshold=0.7):
+        # Get the correlation matrix
+        corr_matrix = self.data_frame.corr()
+
+        # Find pairs of columns with correlations higher than the threshold
+        high_corr_pairs = []
+        for i in range(len(corr_matrix.columns)):
+            for j in range(i+1, len(corr_matrix.columns)):
+                if abs(corr_matrix.iloc[i, j]) > threshold:
+                    high_corr_pairs.append((corr_matrix.columns[i], corr_matrix.columns[j]))
+
+        # Iterate over each pair and remove the column with higher skew
+        for col1, col2 in high_corr_pairs:
+            skewness_col1 = self.data_frame[col1].skew()
+            skewness_col2 = self.data_frame[col2].skew()
+
+            if abs(skewness_col1) > abs(skewness_col2):
+                self.data_frame.drop(columns=[col1], inplace=True)
+            else:
+                self.data_frame.drop(columns=[col2], inplace=True)
+
+        return self.data_frame
