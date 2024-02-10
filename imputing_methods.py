@@ -125,8 +125,12 @@ class DataFrameTransform:
         return self.data_frame
     
     def goodbye_high_corr_cols(self, threshold=0.7):
+        # Filter numerical columns
+        numeric_columns = self.data_frame.select_dtypes(include=['number']).columns
+        numeric_df = self.data_frame[numeric_columns]
+
         # Get the correlation matrix
-        corr_matrix = self.data_frame.corr()
+        corr_matrix = numeric_df.corr()
 
         # Find pairs of columns with correlations higher than the threshold
         high_corr_pairs = []
@@ -135,10 +139,10 @@ class DataFrameTransform:
                 if abs(corr_matrix.iloc[i, j]) > threshold:
                     high_corr_pairs.append((corr_matrix.columns[i], corr_matrix.columns[j]))
 
-        # Iterate over each pair and remove the column with higher skew
+        # Iterate over each pair and remove the column with higher skew - make sure there is an up-to-date version of the list of high corr pairs so that we don't 
         for col1, col2 in high_corr_pairs:
-            skewness_col1 = self.data_frame[col1].skew()
-            skewness_col2 = self.data_frame[col2].skew()
+            skewness_col1 = numeric_df[col1].skew()
+            skewness_col2 = numeric_df[col2].skew()
 
             if abs(skewness_col1) > abs(skewness_col2):
                 self.data_frame.drop(columns=[col1], inplace=True)
