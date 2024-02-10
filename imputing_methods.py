@@ -119,3 +119,5 @@ class DataFrameTransform:
     def remove_outlier_rows(self, column_with_outlier, threshold): 
         self.data_frame = self.data_frame.loc[self.data_frame[column_with_outlier] <= threshold]
         return self.data_frame
+    
+    
