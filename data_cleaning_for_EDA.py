@@ -93,7 +93,7 @@ class DataFrameInfo():
 
 
         # Filter the original correlation matrix for absolute correlations above the threshold
-        high_abs_corr_matrix = original_corr_matrix.loc[high_corr_pairs]
+        high_abs_corr_matrix = original_corr_matrix.loc[[pair for pair in high_corr_pairs]]
         # Use high_corr_pairs to filter the original matrix
         high_abs_corr_matrix = high_abs_corr_matrix.dropna(axis=1, how='all').dropna(axis=0, how='all')
 
