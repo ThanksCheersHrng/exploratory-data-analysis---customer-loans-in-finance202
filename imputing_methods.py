@@ -114,22 +114,8 @@ class DataFrameTransform:
                 print(f"Transformation applied to column '{column}'.")
             except Exception as e:
                 print(f"Error applying transformation to column '{column}': {e}")
-                
-"""             
-    def skew_transform(self, skewed_columns, transformations): # the error methods suggested by chatGPT here will help identify which item in which list is causing errors, should any occur. 
-        # check that each skewed column has its own transformaiton specified: 
-        if len(skewed_columns) != len(transformations):
-            raise ValueError("Lengths of skewed_columns and transformations should be the same.")
-        for column, trans_func in zip(skewed_columns, transformations): #cool zip = iterator function! 
-           if column not in self.data_frame.columns: 
-               print(f"Make sure '{column}' is in the data frame.") 
-               continue
-           if not callable(trans_func): 
-               print(f"Check that the transformation {trans_func} is a function.")
-        try: 
-            self.data_frame[column] = trans_func(self.data_frame[column])
-            print(f"transformation '{trans_func}' has been applied to the column, '{column}'.")
-        except Exception as e: 
-            print(f"Error while applying transformation '{trans_func}' to column '{column}: {e}'")
-        pass 
-"""
+
+
+    def remove_outlier_rows(self, column_with_outlier, threshold): 
+        self.data_frame = self.data_frame.loc[self.data_frame[column_with_outlier] <= threshold]
+        return self.data_frame
