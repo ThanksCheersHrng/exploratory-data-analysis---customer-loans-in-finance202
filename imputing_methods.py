@@ -14,6 +14,7 @@ class Plotter:
     def table(self, column_name):
         column_table = self.data_frame[column_name].value_counts().reset_index()
         column_table.columns = ['Value', 'Count']
+        column_table = column_table.sort_values(by='Value')
         print(column_table)
 
     def plot_column(self, column_name, transformer=None): 
