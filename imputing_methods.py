@@ -139,14 +139,25 @@ class DataFrameTransform:
                 if abs(corr_matrix.iloc[i, j]) > threshold:
                     high_corr_pairs.append((corr_matrix.columns[i], corr_matrix.columns[j]))
 
-        # Iterate over each pair and remove the column with higher skew - make sure there is an up-to-date version of the list of high corr pairs so that we don't 
-        for col1, col2 in high_corr_pairs:
+        # Iteratively remove columns with higher skewness and update high_corr_pairs
+        while high_corr_pairs:
+            # Select a pair from high_corr_pairs
+            col1, col2 = high_corr_pairs[0]
+
+            # Calculate skewness for each column
             skewness_col1 = numeric_df[col1].skew()
             skewness_col2 = numeric_df[col2].skew()
 
+            # Determine which column to drop based on skewness
             if abs(skewness_col1) > abs(skewness_col2):
-                self.data_frame.drop(columns=[col1], inplace=True)
+                column_to_drop = col1
             else:
-                self.data_frame.drop(columns=[col2], inplace=True)
+                column_to_drop = col2
+
+            # Remove the column from the DataFrame
+            self.data_frame.drop(columns=[column_to_drop], inplace=True)
+
+            # Remove any tuples from high_corr_pairs containing the dropped column
+            high_corr_pairs = [(x, y) for x, y in high_corr_pairs if x != column_to_drop and y != column_to_drop]
 
         return self.data_frame
