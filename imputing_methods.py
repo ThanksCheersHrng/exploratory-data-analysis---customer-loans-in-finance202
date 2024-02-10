@@ -10,8 +10,13 @@ class Plotter:
 
     def __getitem__(self, key): 
         return self.data_frame[key]
+    
+    def table(self, column_name):
+        column_table = self.data_frame[column_name].value_counts().reset_index()
+        column_table.columns = ['Value', 'Count']
+        print(column_table)
 
-    def plot_column(self, column_name, transformer=None, log_scale=False): # explicitly take transformer as an argument in function call 
+    def plot_column(self, column_name, transformer=None): 
         # Check if the column exists in the DataFrame
         if column_name not in self.data_frame.columns:
             print(f"Column '{column_name}' not found in the DataFrame.")
@@ -22,7 +27,7 @@ class Plotter:
 
         # Plot based on data type
         if pd.api.types.is_numeric_dtype(column_dtype): 
-            self._plot_numeric_column(column_name, transformer=transformer) # make transformer an explicit attribute on return
+            self._plot_numeric_column(column_name, transformer=transformer) 
         elif pd.api.types.is_categorical_dtype(column_dtype):
             self._plot_categorical_column(column_name)
         elif pd.api.types.is_datetime64_any_dtype(column_dtype):
@@ -30,47 +35,29 @@ class Plotter:
         else:
             print(f"Unsupported data type for column '{column_name}'.")
 
-    def _plot_numeric_column(self, column_name, transformer=None, log_scale=False): 
+    def _plot_numeric_column(self, column_name, transformer=None): 
         if transformer is None: 
             transformer = lambda x: x
         transformed_data = transformer(self.data_frame[column_name])
-    
         plt.figure(figsize=(8, 6))
-    
-        # Plot histogram using Seaborn
-        sns.histplot(transformed_data, kde=True, color='skyblue')
-    
+        sns.histplot(transformed_data, kde=True, color='teal')
         plt.title(f'Distribution of {column_name}')
         plt.xlabel(column_name)
-    
-        if log_scale:
-            plt.yscale('linear')  # Set y-axis scale to linear
-        
-            # Manually adjust y-axis ticks and labels to logarithmic scale
-            ticks = [1, 10, 100, 1000, 10000]  # Example logarithmic ticks
-            plt.yticks(ticks, [str(tick) for tick in ticks])
-            plt.ylabel('Log Frequency')
-        else:
-            plt.ylabel('Frequency')
-    
         plt.show()
 
-    def _plot_categorical_column(self, column_name, log_scale=False):
+    def _plot_categorical_column(self, column_name):
         plt.figure(figsize=(8, 6))
         sns.countplot(x=column_name, data=self.data_frame)
         plt.title(f'Count of each category in {column_name}')
-        if log_scale:
-            plt.yscale('log')
         plt.show()
 
     #add a method for datetime data that treats it like numeric. 
-    def _plot_datetime_column(self, column_name, log_scale=False):
+    def _plot_datetime_column(self, column_name):
         plt.figure(figsize=(8, 6))
-        sns.histplot(self.data_frame[column_name], kde=True)
+        sns.histplot(self.data_frame[column_name], kde=True, color='violet')
         plt.title(f'Distribution of {column_name}')
-        if log_scale:
-            plt.yscale('log')
         plt.show()
+
 
     def boxplot_with_outliers(self, column_name):
         if column_name not in self.data_frame.columns:
