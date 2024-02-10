@@ -1,0 +1,36 @@
+Chat GPT just offered these insights (which I don't have time to implement, but they are interesting)... 
+
+Inheriting from pd.DataFrame and the other classes (im.Plotter, im.DataFrameTransform, dc.DataFrameInfo) in your MultipleInheritanceTestClass as you proposed can lead to unexpected behavior and potential conflicts.
+
+Here are some potential issues:
+
+    1. Method Resolution Order (MRO) conflicts: When inheriting from multiple classes that define methods with the same name, Python's Method Resolution Order (MRO) determines which method will be called. This can lead to ambiguity and unexpected behavior if the MRO is not well-defined.
+
+    2. Namespace conflicts: If multiple inherited classes define methods or attributes with the same name, there may be conflicts in the namespace, leading to unpredictable behavior.
+
+    3. Diamond Inheritance Problem: If there are common base classes among the inherited classes, the diamond inheritance problem can occur, where a method or attribute is inherited through multiple paths in the inheritance hierarchy.
+
+    4. Code complexity and maintenance: Multiple inheritance can make the code more complex and harder to maintain, especially if the inheritance hierarchy is deep or if there are many inherited classes.
+
+To avoid these potential problems, consider using composition instead of multiple inheritance. Instead of inheriting from pd.DataFrame and the other classes, you can create an instance of pd.DataFrame inside your MultipleInheritanceTestClass and delegate functionality to the other classes as needed. This approach provides more flexibility and avoids the pitfalls of multiple inheritance.
+
+Here's an example using composition:
+
+python
+
+import pandas as pd
+import DataFrameInfo as dc
+import DataFrameTransform as im
+
+class MultipleInheritanceTestClass:
+    def __init__(self, data=None, **kwargs):
+        self.data_frame = pd.DataFrame(data, **kwargs)
+        self.plotter = im.Plotter(self.data_frame)
+        self.transformer = im.DataFrameTransform(self.data_frame)
+        self.info = dc.DataFrameInfo(self.data_frame)
+
+    def export_to_csv(self, filename):
+        self.data_frame.to_csv(filename, index=False)
+        print(f"DataFrame exported to {filename}")
+
+With this approach, MultipleInheritanceTestClass contains an instance of pd.DataFrame (self.data_frame) and instances of the other classes. You can then access the functionality of each class through these instances without the complexities of multiple inheritance.

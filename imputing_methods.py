@@ -120,4 +120,6 @@ class DataFrameTransform:
         self.data_frame = self.data_frame.loc[self.data_frame[column_with_outlier] <= threshold]
         return self.data_frame
     
-    
+    def drop_any_column(self, column_to_drop):
+        self.data_frame.drop(columns=[column_to_drop], inplace=True)
+        return self.data_frame
