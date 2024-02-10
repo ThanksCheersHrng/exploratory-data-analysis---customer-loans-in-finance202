@@ -4,6 +4,7 @@ import numpy as np
 import pandas as pd
 import os
 import matplotlib.pyplot as plt 
+import seaborn as sns
 class DataFrameInfo():
     def __init__(self, data_frame):
         self.data_frame = data_frame
@@ -83,7 +84,7 @@ class DataFrameInfo():
             # Create a new figure for each scatterplot
             plt.figure(figsize=(8, 6))
     
-            sns.scatterplot(data=self.data_frame, x=column1, y=column2)
+            sns.scatterplot(data=self.data_frame, x=column1, y=column2, color='teal')
             plt.title(f"{column1} vs {column2}")
     
             # Save scatterplot to PNG file
