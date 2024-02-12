@@ -1,9 +1,14 @@
-## After My modifications in data cleaning: 
+## finance_df loaded into analysis_and_visualisation_workspace_1.ipynb 
 
 Unnamed: 0                      int64
+id                              int64
+member_id                       int64
 loan_amount                     int64
+funded_amount                 float64
+funded_amount_inv             float64
 term_length_in_months         float64
 int_rate                      float64
+instalment                    float64
 grade                          object
 sub_grade                      object
 years_of_employment           float64
@@ -21,9 +26,14 @@ inq_last_6mths                  int64
 open_accounts                   int64
 total_accounts                  int64
 out_prncp                     float64
+out_prncp_inv                 float64
+total_payment                 float64
+total_payment_inv             float64
 total_rec_prncp               float64
+total_rec_int                 float64
 total_rec_late_fee            float64
 recoveries                    float64
+collection_recovery_fee       float64
 last_payment_date              object
 last_payment_amount           float64
 next_payment_date              object
