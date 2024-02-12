@@ -146,13 +146,17 @@ class DataFrameTransform:
 
             high_corr_pairs = [(x, y) for x, y in high_corr_pairs if x != column_to_drop and y != column_to_drop]
 
-    def goodbye_high_corr_cols(self, threshold=0.7):
+    def goodbye_high_corr_cols(self, threshold=0.7, columns_to_keep=None):
         numeric_columns = self.data_frame.select_dtypes(include=['number']).columns
         numeric_df = self.data_frame[numeric_columns]
 
         corr_matrix = numeric_df.corr()
 
         high_corr_pairs = self._get_high_corr_pairs(threshold, corr_matrix)
+
+        # Remove columns with high skewness except those in columns_to_keep
+        if columns_to_keep:
+            high_corr_pairs = [(col1, col2) for col1, col2 in high_corr_pairs if col1 not in columns_to_keep and col2 not in columns_to_keep]
 
         self._remove_columns_with_high_skewness(numeric_df, high_corr_pairs)
 

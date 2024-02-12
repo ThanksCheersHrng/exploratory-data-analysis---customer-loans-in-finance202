@@ -1,3 +1,38 @@
+## After My modifications in data cleaning: 
+
+Unnamed: 0                      int64
+loan_amount                     int64
+term_length_in_months         float64
+int_rate                      float64
+grade                          object
+sub_grade                      object
+years_of_employment           float64
+home_ownership                 object
+annual_inc                    float64
+verification_status            object
+issue_date                     object
+loan_status                    object
+payment_plan                   object
+purpose                        object
+dti                           float64
+delinq_2yrs                     int64
+earliest_credit_line           object
+inq_last_6mths                  int64
+open_accounts                   int64
+total_accounts                  int64
+out_prncp                     float64
+total_rec_prncp               float64
+total_rec_late_fee            float64
+recoveries                    float64
+last_payment_date              object
+last_payment_amount           float64
+next_payment_date              object
+last_credit_pull_date          object
+collections_12_mths_ex_med    float64
+policy_code                     int64
+application_type               object
+
+
 # Full loans dataset schema
 
 - **id**: unique id of the loan
