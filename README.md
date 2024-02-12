@@ -11,6 +11,9 @@ market trends (as an example). Some serious maths!
 Let's see where this project takes us, shall we?
 
 ## This repo should contain: 
+
+### Initial data access files: 
+
 - credentials.yaml which contains the credentials for accessing AWS (this is in the .gitignore)
 
 - .gitignore, which sets items git should ignore when committing (this means if you pull my repo, you should not get all of the information listed here)
@@ -29,7 +32,13 @@ Let's see where this project takes us, shall we?
 
 - load_to_pandas.py which reads dataframe.csv as a pandas dataframe called finance_df, and applies basic pandas functions to become familiar with the data. 
 
+### Modules: 
+
 - data_cleaning_for_EDA.py which is a workspace for developing classes, as assigned by AiCore 
+
+- imputing_methods.py, added 2024.01.03; adds the DataFrameTransform and Plotter classes assigned in task 3 of milestone 3, to help with... you guessed it: imputing and removing data. 
+
+### Data Cleaning workspaces: 
 
 - testing_class.py, added 2024.01.21 to give me a space to try to import classes, import the data, and apply the classes to the data without all the extra clutter (mercifully contained in load_to_pandas.py and data_cleaning_for_EDA.py). 
 	As of 2024.01.20.07.50, watched https://www.youtube.com/watch?v=txRTzljmV0Q to better understand why I would do this with methods instead of functions; the distinction is still murky. I'm forcing myself to use methods at this point because that's what the task wants (and I guess the finance dataset is sort of a collection of objects in variable states.), but it seems like it would be 100 times simpler to just use the functions already built into pandas that perform the data workflow perfectly! 
@@ -41,11 +50,21 @@ Let's see where this project takes us, shall we?
 
 - ongoing_workspace.ipynb, added 2024.01.03 since ipynb can run sections at a time; this means I don't have to run a separate Python interpreter session (and thereby re-import all modules, taking up time) every time I want to check a piece of code. This file essentially replaces the functionality of testing_clases.py. 
 
+- ongoing_workspace_2.ipynb, added later, on which I finished a few more data cleaning tasks by reimporting the data at various stages of its 'cleaning' process. 
+
+### Data Subsets and Data Cleaning Visuals: 
+
+- df_after_end_of_Task_4.csv, same for end of task 5, same for end of task 6, all iterations of the dataframe.csv after various data cleaning stages. 
+
+- There are a handful of csv's added to the repo at various times when I want to examine a single column in csv format. I've tended to then play with them in load_to_pandas.py, which has become a semi-outdated space where I can work on csv's. Those csv's are of the format {column_name}_tabulated.csv
+
+- There are now also a striking number of pngs added to demonstrate the correlation between numeric data columns; their naming format is high_corr_scatterplot_{col_1}_vs_{col_2}.csv 
+
+### Various notes-to-self: 
+
 - notes_for_later.txt, added 2024.01.03; does what it says on the tin. 
 
-- imputing_methods.py, added 2024.01.03; adds the DataFrameTransform and Plotter classes assigned in task 3 of milestone 3, to help with... you guessed it: imputing and removing data. 
-
-- There are a handful of csv's added to the repo at various times when I want to examine a single column in csv format. I've tended to then play with them in load_to_pandas.py, which has become a semi-outdated space where I can work on csv's. 
+- notes_on_composition_of_parent_classes.txt ; again, it's notes for my consideration at a later date, on class inheritance. 
 
 ## Project Decription 
 ### Aims: 
