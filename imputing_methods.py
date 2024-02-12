@@ -84,18 +84,19 @@ class DataFrameTransform:
     def __getitem__(self, key): 
         return self.data_frame[key]
 
-    def drop_weak_columns(self, threshold=0.25):  # still has a default parameter of 0.25 so I shouldn't have to change implementation code. 
-        weak_columns = self.data_frame.columns[self.data_frame.isna().mean() > threshold]
+    def _get_weak_columns(self, threshold):
+        return self.data_frame.columns[self.data_frame.isna().mean() > threshold]
+
+    def drop_weak_columns(self, threshold=0.25):
+        weak_columns = self._get_weak_columns(threshold)
         self.data_frame = self.data_frame.drop(columns=weak_columns)
         return self.data_frame
     
     def impute_null_values(self):
-        null_columns = self.data_frame.columns[self.data_frame.isna().mean() > 0]
-        # .fillna method works on Series, so individual breakdown:
+        null_columns = self._get_weak_columns(0)  # Adjusted to handle any columns with null values
         for column in null_columns:
             replace_with_this = self.data_frame[column].median()
-            self.data_frame[column].fillna(replace_with_this, inplace = True)
-            # I later found out .fillna CAN work on a data frame as well. 
+            self.data_frame[column].fillna(replace_with_this, inplace=True)
     
     def skew_transform(self, skewed_columns, transformations):
         if len(skewed_columns) != len(transformations):
@@ -124,40 +125,35 @@ class DataFrameTransform:
         self.data_frame.drop(columns=[column_to_drop], inplace=True)
         return self.data_frame
     
-    def goodbye_high_corr_cols(self, threshold=0.7):
-        # Filter numerical columns
-        numeric_columns = self.data_frame.select_dtypes(include=['number']).columns
-        numeric_df = self.data_frame[numeric_columns]
-
-        # Get the correlation matrix
-        corr_matrix = numeric_df.corr()
-
-        # Find pairs of columns with correlations higher than the threshold
+    def _get_high_corr_pairs(self, threshold, corr_matrix): # private method, as this is a sub-task for another internal method (goodbye_high_corr_cols...)
         high_corr_pairs = []
         for i in range(len(corr_matrix.columns)):
-            for j in range(i+1, len(corr_matrix.columns)):
+            for j in range(i + 1, len(corr_matrix.columns)):
                 if abs(corr_matrix.iloc[i, j]) > threshold:
                     high_corr_pairs.append((corr_matrix.columns[i], corr_matrix.columns[j]))
+        return high_corr_pairs
 
-        # Iteratively remove columns with higher skewness and update high_corr_pairs
+    def _remove_columns_with_high_skewness(self, numeric_df, high_corr_pairs): # private method, as this is a sub-task for another internal method (goodbye_high_corr_cols...)
         while high_corr_pairs:
-            # Select a pair from high_corr_pairs
             col1, col2 = high_corr_pairs[0]
 
-            # Calculate skewness for each column
             skewness_col1 = numeric_df[col1].skew()
             skewness_col2 = numeric_df[col2].skew()
 
-            # Determine which column to drop based on skewness
-            if abs(skewness_col1) > abs(skewness_col2):
-                column_to_drop = col1
-            else:
-                column_to_drop = col2
+            column_to_drop = col1 if abs(skewness_col1) > abs(skewness_col2) else col2
 
-            # Remove the column from the DataFrame
             self.data_frame.drop(columns=[column_to_drop], inplace=True)
 
-            # Remove any tuples from high_corr_pairs containing the dropped column
             high_corr_pairs = [(x, y) for x, y in high_corr_pairs if x != column_to_drop and y != column_to_drop]
+
+    def goodbye_high_corr_cols(self, threshold=0.7):
+        numeric_columns = self.data_frame.select_dtypes(include=['number']).columns
+        numeric_df = self.data_frame[numeric_columns]
+
+        corr_matrix = numeric_df.corr()
+
+        high_corr_pairs = self._get_high_corr_pairs(threshold, corr_matrix)
+
+        self._remove_columns_with_high_skewness(numeric_df, high_corr_pairs)
 
         return self.data_frame
